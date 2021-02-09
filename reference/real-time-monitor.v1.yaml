@@ -304,5 +304,38 @@ components:
     auth:
       type: http
       scheme: basic
+  responses:
+    CreateSubscriptionResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            properties:
+              id:
+                type: string
+    UpdateSubscriptionResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            properties:
+              id:
+                type: string
+    ListSubscriptionResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            properties:
+              id:
+                type: string
+    ListMetricDefinitionResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            properties:
+              id:
+                type: string
 security:
   - auth: []
