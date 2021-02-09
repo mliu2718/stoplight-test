@@ -22,11 +22,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SubscriptionResponse'
+                $ref: '#/components/schemas/Subscription'
               examples:
                 Get Subscription Example:
                   value:
-                    id: 142
+                    id: '142'
                     created: 1612898665486
                     discription: this is used by ops team to monitor number of plays
                     metric: plays
@@ -58,11 +58,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/Subscription'
               examples:
                 Updated User Rebecca Baker:
                   value:
-                    id: 13
+                    id: abcdefg==
                     firstName: Rebecca
                     lastName: Baker
                     email: rebecca@gmail.com
@@ -81,17 +81,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Subscription'
-            examples:
-              Update First Name:
-                value:
-                  firstName: Rebecca
-              Update Email:
-                value:
-                  email: rebecca@gmail.com
-              Update Last Name & Date of Birth:
-                value:
-                  lastName: Baker
-                  dateOfBirth: '1985-10-02'
+            examples: {}
         description: Patch user properties to update.
     delete:
       summary: Delete a Subscription
@@ -115,7 +105,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/SubscriptionResponse'
+                  $ref: '#/components/schemas/Subscription'
       operationId: get-metrics-v2-subscriptions
       description: List all metric subscriptions.
     post:
@@ -181,7 +171,7 @@ paths:
       operationId: get-metrics-v2-fields
       description: List all metrics definitions.
     parameters: []
-  '/metrics/v2/endpoints/{endpoint_id}':
+  '/metrics/v2/subscriptions/{subscritpion_id}/exporter':
     get:
       summary: Pull Metric Time Series
       tags: []
@@ -229,7 +219,7 @@ paths:
     parameters:
       - schema:
           type: string
-        name: endpoint_id
+        name: subscritpion_id
         in: path
         required: true
 components:
