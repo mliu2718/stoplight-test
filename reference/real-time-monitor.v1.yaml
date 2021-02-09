@@ -197,8 +197,16 @@ paths:
                     items:
                       type: object
                       properties:
-                        time:
-                          type: integer
+                        name:
+                          type: string
+                        values:
+                          type: array
+                          items:
+                            type: number
+                  time:
+                    type: array
+                    items:
+                      type: integer
         '404':
           description: Not Found
         '500':
@@ -222,6 +230,7 @@ paths:
         name: subscritpion_id
         in: path
         required: true
+        description: Subscription ID
 components:
   schemas:
     FilterCondition:
