@@ -151,6 +151,87 @@ paths:
             schema:
               $ref: '#/components/schemas/Subscription'
         description: ''
+  /metrics/v2/definitions:
+    get:
+      summary: List all Metric Definitions
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    type:
+                      type: string
+                    fields:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          type:
+                            type: string
+      operationId: get-metrics-v2-fields
+      description: List all metrics definitions.
+    parameters: []
+  '/metrics/v2/endpoints/{endpoint_id}':
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  metric:
+                    $ref: '#/components/schemas/Metric'
+                  cursor:
+                    type: object
+                    properties:
+                      after:
+                        type: integer
+                      before:
+                        type: integer
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        time:
+                          type: integer
+      operationId: get-metrics-v2-endpoints
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: before
+          description: UTC timestamp
+        - schema:
+            type: integer
+          in: query
+          name: after
+          description: UTC timestamp
+        - schema:
+            type: string
+          in: query
+          name: granularity
+          description: 'time granularity, 1M, 5M, 1H'
+    parameters:
+      - schema:
+          type: string
+        name: endpoint_id
+        in: path
+        required: true
 components:
   schemas:
     FilterCondition:
