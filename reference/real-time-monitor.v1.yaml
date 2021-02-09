@@ -42,8 +42,11 @@ paths:
                           - field: state
                             op: '='
                             value: CA
+                    metric_endpoint: 'https://api.conviva.com/metrics/v2/endpoints/142'
         '404':
           description: Subscription Not Found
+        '500':
+          description: Internal Server Error
       operationId: get-users-userId
       description: Retrieve the information of the subscription with the matching subscription ID.
     patch:
@@ -98,60 +101,54 @@ paths:
                   lastName: Baker
                   dateOfBirth: '1985-10-02'
         description: Patch user properties to update.
-  /user:
-    post:
-      summary: Create New User
-      operationId: post-user
+  /metrics/v2/subscriptions:
+    get:
+      summary: List metric subscriptions
+      tags: []
       responses:
         '200':
-          description: User Created
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-              examples:
-                New User Bob Fellow:
-                  value:
-                    id: 12
-                    firstName: Bob
-                    lastName: Fellow
-                    email: bob.fellow@gmail.com
-                    dateOfBirth: '1996-08-24'
-                    emailVerified: false
-                    createDate: '2020-11-18'
+                type: array
+                items:
+                  $ref: '#/components/schemas/SubscriptionResponse'
+      operationId: get-metrics-v2-subscriptions
+      description: List all metric subscriptions.
+    post:
+      summary: Create a new metric subscription
+      operationId: post-metrics-v2-subscriptions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
         '400':
-          description: Missing Required Information
-        '409':
-          description: Email Already Taken
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+              examples:
+                error message 1:
+                  value:
+                    code: '400'
+                    message: the number of active subscriptions exceeds quota limit.
+      description: Create a new metric subscription
       requestBody:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                firstName:
-                  type: string
-                lastName:
-                  type: string
-                email:
-                  type: string
-                dateOfBirth:
-                  type: string
-                  format: date
-              required:
-                - firstName
-                - lastName
-                - email
-                - dateOfBirth
-            examples:
-              Create User Bob Fellow:
-                value:
-                  firstName: Bob
-                  lastName: Fellow
-                  email: bob.fellow@gmail.com
-                  dateOfBirth: '1996-08-24'
-        description: Post the necessary fields for the API to create a new user.
-      description: Create a new user.
+              $ref: '#/components/schemas/Subscription'
+        description: ''
 components:
   schemas:
     FilterCondition:
@@ -179,7 +176,7 @@ components:
           type: string
         description:
           type: string
-    SubscriptionResponse:
+    Subscription:
       title: SubscriptionResponse
       type: object
       properties:
