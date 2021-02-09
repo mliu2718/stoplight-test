@@ -1,0 +1,213 @@
+openapi: 3.0.0
+info:
+  title: real time monitor
+  version: '1.0'
+servers:
+  - url: 'https://api.conviva.com'
+paths:
+  '/metrics/v2/subscriptions/{subscription_id}':
+    parameters:
+      - schema:
+          type: string
+        name: subscription_id
+        in: path
+        required: true
+        description: subscription ID
+    get:
+      summary: Get Subscription Info by Subscription ID
+      tags: []
+      responses:
+        '200':
+          description: Subscription Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionResponse'
+              examples:
+                Get Subscription Example:
+                  value:
+                    id: 142
+                    created: 1612898665486
+                    discription: this is used by ops team to monitor number of plays
+        '404':
+          description: Subscription Not Found
+      operationId: get-users-userId
+      description: Retrieve the information of the subscription with the matching subscription ID.
+    patch:
+      summary: Update User Information
+      operationId: patch-users-userId
+      responses:
+        '200':
+          description: User Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                Updated User Rebecca Baker:
+                  value:
+                    id: 13
+                    firstName: Rebecca
+                    lastName: Baker
+                    email: rebecca@gmail.com
+                    dateOfBirth: '1985-10-02'
+                    emailVerified: false
+                    createDate: '2019-08-24'
+        '404':
+          description: User Not Found
+        '409':
+          description: Email Already Taken
+      description: Update the infromation of an existing user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                  description: 'If a new email is given, the user''s email verified property will be set to false.'
+                dateOfBirth:
+                  type: string
+            examples:
+              Update First Name:
+                value:
+                  firstName: Rebecca
+              Update Email:
+                value:
+                  email: rebecca@gmail.com
+              Update Last Name & Date of Birth:
+                value:
+                  lastName: Baker
+                  dateOfBirth: '1985-10-02'
+        description: Patch user properties to update.
+  /user:
+    post:
+      summary: Create New User
+      operationId: post-user
+      responses:
+        '200':
+          description: User Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                New User Bob Fellow:
+                  value:
+                    id: 12
+                    firstName: Bob
+                    lastName: Fellow
+                    email: bob.fellow@gmail.com
+                    dateOfBirth: '1996-08-24'
+                    emailVerified: false
+                    createDate: '2020-11-18'
+        '400':
+          description: Missing Required Information
+        '409':
+          description: Email Already Taken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                dateOfBirth:
+                  type: string
+                  format: date
+              required:
+                - firstName
+                - lastName
+                - email
+                - dateOfBirth
+            examples:
+              Create User Bob Fellow:
+                value:
+                  firstName: Bob
+                  lastName: Fellow
+                  email: bob.fellow@gmail.com
+                  dateOfBirth: '1996-08-24'
+        description: Post the necessary fields for the API to create a new user.
+      description: Create a new user.
+components:
+  schemas:
+    FilterCondition:
+      title: FilterCondition
+      type: object
+      properties:
+        field:
+          type: string
+        op:
+          type: string
+        value:
+          type: string
+      x-examples:
+        example-1:
+          field: string
+          op: string
+          value: string
+    Field:
+      title: Field
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+    SubscriptionResponse:
+      title: SubscriptionResponse
+      type: object
+      properties:
+        id:
+          type: string
+        created:
+          type: integer
+        description:
+          type: string
+        filters:
+          type: array
+          items:
+            $ref: ''
+        metric:
+          type: string
+        series:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              filters:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FilterCondition'
+        metric_endpoint:
+          type: string
+    Metric:
+      title: Metric
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+  securitySchemes:
+    auth:
+      type: http
+      scheme: basic
+security:
+  - auth: []
