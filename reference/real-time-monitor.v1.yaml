@@ -50,11 +50,11 @@ paths:
       operationId: get-users-userId
       description: Retrieve the information of the subscription with the matching subscription ID.
     patch:
-      summary: Update User Information
+      summary: Update Subscription Information
       operationId: patch-users-userId
       responses:
         '200':
-          description: User Updated
+          description: Subscription Updated
           content:
             application/json:
               schema:
@@ -70,25 +70,17 @@ paths:
                     emailVerified: false
                     createDate: '2019-08-24'
         '404':
-          description: User Not Found
-        '409':
-          description: Email Already Taken
-      description: Update the infromation of an existing user.
+          description: Subscription Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+      description: Update the infromation of an existing subscription.
       requestBody:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                firstName:
-                  type: string
-                lastName:
-                  type: string
-                email:
-                  type: string
-                  description: 'If a new email is given, the user''s email verified property will be set to false.'
-                dateOfBirth:
-                  type: string
+              $ref: '#/components/schemas/Subscription'
             examples:
               Update First Name:
                 value:
@@ -101,6 +93,16 @@ paths:
                   lastName: Baker
                   dateOfBirth: '1985-10-02'
         description: Patch user properties to update.
+    delete:
+      summary: Delete a Subscription
+      operationId: delete-metrics-v2-subscriptions-subscription_id
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
   /metrics/v2/subscriptions:
     get:
       summary: List metric subscriptions
