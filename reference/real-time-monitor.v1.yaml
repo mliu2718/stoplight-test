@@ -183,7 +183,7 @@ paths:
     parameters: []
   '/metrics/v2/endpoints/{endpoint_id}':
     get:
-      summary: Your GET endpoint
+      summary: Pull Metric Time Series
       tags: []
       responses:
         '200':
@@ -209,6 +209,10 @@ paths:
                       properties:
                         time:
                           type: integer
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
       operationId: get-metrics-v2-endpoints
       parameters:
         - schema:
@@ -221,11 +225,7 @@ paths:
           in: query
           name: after
           description: UTC timestamp
-        - schema:
-            type: string
-          in: query
-          name: granularity
-          description: 'time granularity, 1M, 5M, 1H'
+      description: Pull metric time series.
     parameters:
       - schema:
           type: string
@@ -287,6 +287,8 @@ components:
                 items:
                   $ref: '#/components/schemas/FilterCondition'
         metric_endpoint:
+          type: string
+        granularity:
           type: string
     Metric:
       title: Metric
