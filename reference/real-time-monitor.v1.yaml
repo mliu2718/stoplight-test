@@ -285,8 +285,6 @@ components:
                 type: array
                 items:
                   $ref: '#/components/schemas/FilterCondition'
-        metric_endpoint:
-          type: string
         granularity:
           type: string
     Metric:
