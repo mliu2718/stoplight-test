@@ -29,6 +29,19 @@ paths:
                     id: 142
                     created: 1612898665486
                     discription: this is used by ops team to monitor number of plays
+                    metric: plays
+                    filters:
+                      - field: country
+                        op: '='
+                        value: US
+                    series:
+                      - name: plays_total
+                        filters: []
+                      - name: plays_state=CA
+                        filters:
+                          - field: state
+                            op: '='
+                            value: CA
         '404':
           description: Subscription Not Found
       operationId: get-users-userId
