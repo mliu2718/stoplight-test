@@ -212,17 +212,7 @@ paths:
         '500':
           description: Internal Server Error
       operationId: get-metrics-v2-endpoints
-      parameters:
-        - schema:
-            type: integer
-          in: query
-          name: before
-          description: UTC timestamp
-        - schema:
-            type: integer
-          in: query
-          name: after
-          description: UTC timestamp
+      parameters: []
       description: Pull metric time series.
     parameters:
       - schema:
